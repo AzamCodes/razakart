@@ -424,7 +424,7 @@
 
 "use client";
 
-import React, { useState, useEffect } from "react";
+import { useState } from "react";
 import { ChevronLeft, ChevronRight, Eye } from "lucide-react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Pagination } from "swiper/modules";
