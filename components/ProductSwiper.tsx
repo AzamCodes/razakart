@@ -222,209 +222,551 @@
 // }
 
 
+// "use client";
+
+// import React, { useState, useEffect } from "react";
+// import { ChevronLeft, ChevronRight, Eye, ShoppingCart } from "lucide-react";
+// import { motion, AnimatePresence } from "framer-motion";
+// import Image from "next/image";
+
+// const products = [
+//   {
+//     id: 1,
+//     name: "ASUS E410KA",
+//     originalPrice: 18000,
+//     price: 18000,
+//     discount: 28,
+//     image: "/laptop/asus.avif"
+//   },
+//   {
+//     id: 2,
+//     name: "DELL Inspiron 3521",
+//     originalPrice: 13500,
+//     price: 10000,
+//     discount: 61,
+//     image: "/laptop/dellinspiron.avif"
+//   },
+//   {
+//     id: 3,
+//     name: "HP 2000-2106TU",
+//     originalPrice: 13000,
+//     price: 10000,
+//     discount: 20,
+//     image: "/laptop/hp-200.avif"
+//   },
+//   {
+//     id: 4,
+//     name: "HP 430 G2",
+//     originalPrice: 17000,
+//     price: 13000,
+//     discount: 60,
+//     image: "/laptop/hp-420.avif"
+//   },
+//   {
+//     id: 5,
+//     name: "HP Pavilion M4-1003TX",
+//     originalPrice: 14000,
+//     price: 10000,
+//     discount: 44,
+//     image: "/laptop/hp-pavillon.avif"
+//   },
+//  {
+//     id: 6,
+//     name: "ASUS E410KA",
+//     originalPrice: 18000,
+//     price: 18000,
+//     discount: 28,
+//     image: "/laptop/asus.avif"
+//   },
+// ];
+
+// export default function ProductSlider() {
+//   const [currentIndex, setCurrentIndex] = useState(0);
+//   const [isHovered, setIsHovered] = useState(false);
+//   const [itemsPerView, setItemsPerView] = useState(4);
+//   const [isMobile, setIsMobile] = useState(false);
+
+//   useEffect(() => {
+//     const update = () => {
+//       const width = window.innerWidth;
+
+//       setIsMobile(width < 1024);
+
+//       if (width < 640) setItemsPerView(2);
+//       else if (width < 768) setItemsPerView(2);
+//       else if (width < 1024) setItemsPerView(3);
+//       else setItemsPerView(4);
+//     };
+
+//     update();
+//     window.addEventListener("resize", update);
+//     return () => window.removeEventListener("resize", update);
+//   }, []);
+
+//   const canGoPrev = currentIndex > 0;
+//   const canGoNext = currentIndex < products.length - itemsPerView;
+
+//   const next = () => {
+//     if (canGoNext) setCurrentIndex(prev => prev + 1);
+//   };
+
+//   const prev = () => {
+//     if (canGoPrev) setCurrentIndex(prev => prev - 1);
+//   };
+
+//   const visibleProducts = products.slice(currentIndex, currentIndex + itemsPerView);
+
+//   return (
+//     <div className="w-full bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+//       <div className="max-w-7xl mx-auto">
+//         <div className="flex items-center justify-between mb-6">
+//           <h2 className="text-xl sm:text-3xl font-bold text-gray-900">Trending Now</h2>
+//           <button className="text-xs lg:text-sm text-gray-600 hover:text-gray-900 flex items-center gap-1">
+//             See All
+//             <ChevronRight className="w-4 h-4" />
+//           </button>
+//         </div>
+
+//         <div
+//           className="relative"
+//           onMouseEnter={() => setIsHovered(true)}
+//           onMouseLeave={() => setIsHovered(false)}
+//         >
+//           {/* LEFT BUTTON */}
+//           <AnimatePresence>
+//             {(isMobile || isHovered) && canGoPrev && (
+//               <motion.button
+//                 initial={{ opacity: 0, x: 10 }}
+//                 animate={{ opacity: 1, x: 0 }}
+//                 exit={{ opacity: 0, x: 10 }}
+//                 transition={{ duration: 0.2 }}
+//                 onClick={prev}
+//                 className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 z-20 bg-white rounded-full p-3 shadow-xl hover:bg-gray-50 transition-colors"
+//               >
+//                 <ChevronLeft className="w-4 h-4 lg:w-6 lg:h-6" />
+//               </motion.button>
+//             )}
+//           </AnimatePresence>
+
+//           {/* PRODUCT GRID */}
+//           <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+//             {visibleProducts.map((product, index) => (
+//               <motion.div
+//                 key={product.id}
+//                 // initial={{ opacity: 0, y: 20 }}
+//                 // animate={{ opacity: 1, y: 0 }}
+//                 transition={{ delay: index * 0.05 }}
+//                 className="bg-white rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-shadow group"
+//               >
+//                 <div className="relative aspect-square bg-gray-100 overflow-hidden">
+//                   {product.discount && (
+//                     <div className="absolute top-1.5 lg:top-3 left-1.5 lg:left-3 z-10 bg-blue-600 text-white text-xs  lg:text-sm lg:font-bold px-1.5 py-0.5 lg:px-3 lg:py-1 rounded-full">
+//                       -{product.discount}%
+//                     </div>
+//                   )}
+
+//                   <Image
+//                     src={product.image}
+//                     width={400}
+//                     height={400}
+//                     alt={product.name}
+//                     className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+//                   />
+//                 </div>
+
+//                 <div className="p-2.5 lg:p-4">
+//                   <h3 className="text-sm lg:text-lg font-medium text-gray-900 mb-1 lg:mb-2 line-clamp-2 min-h-[2.5rem]">
+//                     {product.name}
+//                   </h3>
+
+//                   <div className="mb-2 lg:mb-3">
+//                     {product.originalPrice && (
+//                       <div className="text-xs lg:text-sm text-gray-500 line-through lg:mb-0">
+//                         ₹{product.originalPrice.toLocaleString()}
+//                       </div>
+//                     )}
+//                     <div className="text-sm sm:text-lg lg:text-xl font-bold text-blue-600">
+//                       ₹{product.price.toLocaleString()}
+//                     </div>
+//                   </div>
+
+//                   <button className="w-full bg-blue-600 hover:bg-blue-700 rounded-sm text-white font-semibold py-2.5 text-xs sm:text-sm lg:rounded-lg flex items-center justify-center gap-2 transition-colors">
+//                     <Eye className="w-4 h-4" />
+//                     View Product
+//                   </button>
+//                 </div>
+//               </motion.div>
+//             ))}
+//           </div>
+
+//           {/* RIGHT BUTTON */}
+//           <AnimatePresence>
+//             {(isMobile || isHovered) && canGoNext && (
+//               <motion.button
+//                 initial={{ opacity: 0, x: -10 }}
+//                 animate={{ opacity: 1, x: 0 }}
+//                 exit={{ opacity: 0, x: -10 }}
+//                 transition={{ duration: 0.2 }}
+//                 onClick={next}
+//                 className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 z-20 bg-white rounded-full p-3 shadow-xl hover:bg-gray-50 transition-colors"
+//               >
+//                 <ChevronRight className="w-4 h-4 lg:w-6 lg:h-6" />
+//               </motion.button>
+//             )}
+//           </AnimatePresence>
+//         </div>
+//       </div>
+//     </div>
+//   );
+// }
+
+/////////////////////////
+
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { ChevronLeft, ChevronRight, ShoppingCart } from "lucide-react";
-import { motion, AnimatePresence } from "framer-motion";
+import { ChevronLeft, ChevronRight, Eye } from "lucide-react";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Navigation, Pagination } from "swiper/modules";
+import type { Swiper as SwiperType } from "swiper";
 import Image from "next/image";
+
+import "swiper/css";
+import "swiper/css/navigation";
+import "swiper/css/pagination";
 
 const products = [
   {
     id: 1,
-    name: "Cooler Master Elite 681 ARGB ATX Mid Tower Case",
-    originalPrice: 7799,
-    price: 5599,
+    name: "ASUS E410KA",
+    originalPrice: 18000,
+    price: 18000,
     discount: 28,
-    image: "https://images.unsplash.com/photo-1587202372634-32705e3bf49c?w=400&q=80"
+    image: "/laptop/asus.avif"
   },
   {
     id: 2,
-    name: "Asus Dual RTX 3050 OC Edition 6GB Gaming Graphics",
-    originalPrice: 42999,
-    price: 16610,
+    name: "DELL Inspiron 3521",
+    originalPrice: 13500,
+    price: 10000,
     discount: 61,
-    image: "https://images.unsplash.com/photo-1591488320449-011701bb6704?w=400&q=80"
+    image: "/laptop/dellinspiron.avif"
   },
   {
     id: 3,
-    name: "Corsair Vengeance 16GB 5200MHz CL40 DDR5 RAM",
-    originalPrice: 20000,
-    price: 15996,
+    name: "HP 2000-2106TU",
+    originalPrice: 13000,
+    price: 10000,
     discount: 20,
-    image: "https://images.unsplash.com/photo-1541029071515-84cc54f84dc5?w=400&q=80"
+    image: "/laptop/hp-200.avif"
   },
   {
     id: 4,
-    name: "MSI MAG 274QRFW 27 Inch Gaming Monitor",
-    originalPrice: 50000,
-    price: 19930,
+    name: "HP 430 G2",
+    originalPrice: 17000,
+    price: 13000,
     discount: 60,
-    image: "https://images.unsplash.com/photo-1527443224154-c4a3942d3acf?w=400&q=80"
+    image: "/laptop/hp-420.avif"
   },
   {
     id: 5,
-    name: "Cooler Master MasterLiquid 360 Core II ARGB CPU Liquid",
-    originalPrice: 14999,
-    price: 8390,
+    name: "HP Pavilion M4-1003TX",
+    originalPrice: 14000,
+    price: 10000,
     discount: 44,
-    image: "https://images.unsplash.com/photo-1625948515291-69613efd103f?w=400&q=80"
+    image: "/laptop/hp-pavillon.avif"
   },
   {
     id: 6,
-    name: "Razer Kraken V4 X RGB Gaming Headset",
-    originalPrice: 16999,
-    price: 7680,
-    discount: 54,
-    image: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=400&q=80"
-  }
+    name: "ASUS E410KA",
+    originalPrice: 18000,
+    price: 18000,
+    discount: 28,
+    image: "/laptop/asus.avif"
+  },
 ];
 
 export default function ProductSlider() {
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const [isHovered, setIsHovered] = useState(false);
-  const [itemsPerView, setItemsPerView] = useState(4);
-
-  useEffect(() => {
-    const updateItemsPerView = () => {
-      if (window.innerWidth < 640) setItemsPerView(1);
-      else if (window.innerWidth < 768) setItemsPerView(2);
-      else if (window.innerWidth < 1024) setItemsPerView(3);
-      else setItemsPerView(4);
-    };
-
-    updateItemsPerView();
-    window.addEventListener('resize', updateItemsPerView);
-    return () => window.removeEventListener('resize', updateItemsPerView);
-  }, []);
-
-  const canGoPrev = currentIndex > 0;
-  const canGoNext = currentIndex < products.length - itemsPerView;
-
-  const next = () => {
-    if (canGoNext) setCurrentIndex(prev => prev + 1);
-  };
-
-  const prev = () => {
-    if (canGoPrev) setCurrentIndex(prev => prev - 1);
-  };
-
-  const visibleProducts = products.slice(currentIndex, currentIndex + itemsPerView);
+  const [swiperInstance, setSwiperInstance] = useState<SwiperType | null>(null);
+  const [isBeginning, setIsBeginning] = useState(true);
+  const [isEnd, setIsEnd] = useState(false);
 
   return (
     <div className="w-full bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto">
         <div className="flex items-center justify-between mb-6">
-          <h2 className="text-2xl sm:text-3xl font-bold text-gray-900">
-            Trending Now
-          </h2>
-          <button className="text-sm text-gray-600 hover:text-gray-900 flex items-center gap-1">
+          <h2 className="text-xl sm:text-3xl font-bold text-gray-900">Trending Now</h2>
+          <button className="text-xs lg:text-sm text-gray-600 hover:text-gray-900 flex items-center gap-1">
             See All
             <ChevronRight className="w-4 h-4" />
           </button>
         </div>
-        <div
-          className="relative"
-          onMouseEnter={() => setIsHovered(true)}
-          onMouseLeave={() => setIsHovered(false)}
-        >
-          <AnimatePresence>
-            {isHovered && canGoPrev && (
-              <motion.button
-                initial={{ opacity: 0, x: 10 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: 10 }}
-                transition={{ duration: 0.2 }}
-                onClick={prev}
-                className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 z-20 bg-white rounded-full p-3 shadow-xl hover:bg-gray-50 transition-colors"
-              >
-                <ChevronLeft className="w-6 h-6 text-gray-800" />
-              </motion.button>
-            )}
-          </AnimatePresence>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-            {visibleProducts.map((product, index) => (
-              <motion.div
-                key={product.id}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: index * 0.05 }}
-                className="bg-white rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-shadow group"
-              >
-                <div className="relative aspect-square bg-gray-100 overflow-hidden">
-                  {product.discount && (
-                    <div className="absolute top-3 left-3 z-10 bg-blue-600 text-white text-sm font-bold px-3 py-1 rounded-full">
-                      -{product.discount}%
-                    </div>
-                  )}
-                  <Image
-                    src={product.image}
-                    alt={product.name}
-                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-                    />
-            
-                </div>
+        <div className="relative">
+          {!isBeginning && (
+            <button
+              onClick={() => swiperInstance?.slidePrev()}
+              className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 z-20 bg-white rounded-full p-3 shadow-xl hover:bg-gray-50 transition-colors"
+            >
+              <ChevronLeft className="w-4 h-4 lg:w-6 lg:h-6" />
+            </button>
+          )}
 
-                <div className="p-4">
-                  <h3 className="text-sm font-medium text-gray-900 mb-3 line-clamp-2 min-h-[2.5rem]">
-                    {product.name}
-                  </h3>
-
-                  <div className="mb-3">
-                    {product.originalPrice && (
-                      <div className="text-sm text-gray-500 line-through mb-1">
-                        ₹{product.originalPrice.toLocaleString()}
+          <Swiper
+            modules={[Navigation, Pagination]}
+            spaceBetween={16}
+            slidesPerView={2}
+            onSwiper={setSwiperInstance}
+            onSlideChange={(swiper) => {
+              setIsBeginning(swiper.isBeginning);
+              setIsEnd(swiper.isEnd);
+            }}
+            breakpoints={{
+              640: {
+                slidesPerView: 2,
+              },
+              768: {
+                slidesPerView: 3,
+              },
+              1024: {
+                slidesPerView: 4,
+              },
+            }}
+          >
+            {products.map((product) => (
+              <SwiperSlide key={product.id}>
+                <div className="bg-white rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-shadow group">
+                  <div className="relative aspect-square bg-gray-100 overflow-hidden">
+                    {product.discount && (
+                      <div className="absolute top-1.5 lg:top-3 left-1.5 lg:left-3 z-10 bg-blue-600 text-white text-xs lg:text-sm lg:font-bold px-1.5 py-0.5 lg:px-3 lg:py-1 rounded-full">
+                        -{product.discount}%
                       </div>
                     )}
-                    <div className="text-xl font-bold text-blue-600">
-                      ₹{product.price.toLocaleString()}
-                    </div>
+
+                    <Image
+                      src={product.image}
+                      width={400}
+                      height={400}
+                      alt={product.name}
+                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                    />
                   </div>
 
-                  <button className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2.5 rounded-lg flex items-center justify-center gap-2 transition-colors">
-                    <ShoppingCart className="w-4 h-4" />
-                    ADD TO CART
-                  </button>
+                  <div className="p-2.5 lg:p-4">
+                    <h3 className="text-sm lg:text-lg font-medium text-gray-900 mb-1 lg:mb-2 line-clamp-2 xl:min-h-[2rem]">
+                      {product.name}
+                    </h3>
+
+                    <div className="mb-2 lg:mb-3">
+                      {product.originalPrice && (
+                        <div className="text-xs lg:text-sm text-gray-500 line-through lg:mb-0">
+                          ₹{product.originalPrice.toLocaleString()}
+                        </div>
+                      )}
+                      <div className="text-sm sm:text-lg lg:text-xl font-bold text-blue-600">
+                        ₹{product.price.toLocaleString()}
+                      </div>
+                    </div>
+
+                    <button className="w-full bg-blue-600 hover:bg-blue-700 rounded-sm text-white font-semibold py-2.5 text-xs sm:text-sm lg:rounded-lg flex items-center justify-center gap-2 transition-colors">
+                      <Eye className="w-4 h-4" />
+                      View Product
+                    </button>
+                  </div>
                 </div>
-              </motion.div>
+              </SwiperSlide>
             ))}
-          </div>
+          </Swiper>
 
-          <AnimatePresence>
-            {isHovered && canGoNext && (
-              <motion.button
-                initial={{ opacity: 0, x: -10 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: -10 }}
-                transition={{ duration: 0.2 }}
-                onClick={next}
-                className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 z-20 bg-white rounded-full p-3 shadow-xl hover:bg-gray-50 transition-colors"
-              >
-                <ChevronRight className="w-6 h-6 text-gray-800" />
-              </motion.button>
-            )}
-          </AnimatePresence>
+          {!isEnd && (
+            <button
+              onClick={() => swiperInstance?.slideNext()}
+              className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 z-20 bg-white rounded-full p-3 shadow-xl hover:bg-gray-50 transition-colors"
+            >
+              <ChevronRight className="w-4 h-4 lg:w-6 lg:h-6" />
+            </button>
+          )}
         </div>
-
-        {/* {products.length > itemsPerView && (
-          <div className="flex justify-center gap-2 mt-8">
-            {Array.from({ 
-              length: Math.ceil(products.length - itemsPerView + 1) 
-            }).map((_, idx) => (
-              <button
-                key={idx}
-                onClick={() => setCurrentIndex(idx)}
-                className={`h-2 rounded-full transition-all ${
-                  currentIndex === idx
-                    ? "w-8 bg-red-600"
-                    : "w-2 bg-gray-300 hover:bg-gray-400"
-                }`}
-              />
-            ))}
-          </div>
-        )} */}
       </div>
     </div>
   );
 }
+
+
+// "use client";
+// import React, { useState, useEffect } from "react";
+// import { ChevronLeft, ChevronRight, ShoppingCart } from "lucide-react";
+// import { motion } from "framer-motion";
+// import Image from "next/image";
+
+// const products = [
+//   {
+//     id: 1,
+//     name: "Cooler Master Elite 681 ARGB ATX Mid Tower Case",
+//     originalPrice: 7799,
+//     price: 5599,
+//     discount: 28,
+//     image: "https://images.unsplash.com/photo-1587202372634-32705e3bf49c?w=400&q=80"
+//   },
+//   {
+//     id: 2,
+//     name: "Asus Dual RTX 3050 OC Edition 6GB Gaming Graphics",
+//     originalPrice: 42999,
+//     price: 16610,
+//     discount: 61,
+//     image: "https://images.unsplash.com/photo-1591488320449-011701bb6704?w=400&q=80"
+//   },
+//   {
+//     id: 3,
+//     name: "Corsair Vengeance 16GB 5200MHz CL40 DDR5 RAM",
+//     originalPrice: 20000,
+//     price: 15996,
+//     discount: 20,
+//     image: "https://images.unsplash.com/photo-1541029071515-84cc54f84dc5?w=400&q=80"
+//   },
+//   {
+//     id: 4,
+//     name: "MSI MAG 274QRFW 27 Inch Gaming Monitor",
+//     originalPrice: 50000,
+//     price: 19930,
+//     discount: 60,
+//     image: "https://images.unsplash.com/photo-1527443224154-c4a3942d3acf?w=400&q=80"
+//   },
+//   {
+//     id: 5,
+//     name: "Cooler Master MasterLiquid 360 Core II ARGB CPU Liquid",
+//     originalPrice: 14999,
+//     price: 8390,
+//     discount: 44,
+//     image: "https://images.unsplash.com/photo-1625948515291-69613efd103f?w=400&q=80"
+//   },
+//   {
+//     id: 6,
+//     name: "Razer Kraken V4 X RGB Gaming Headset",
+//     originalPrice: 16999,
+//     price: 7680,
+//     discount: 54,
+//     image: "https://images.unsplash.com/photo-1587202372634-32705e3bf49c?w=400&q=80"
+//   }
+// ];
+
+// export default function ProductSlider() {
+//   const [currentIndex, setCurrentIndex] = useState(0);
+//   const [isHovered, setIsHovered] = useState(false);
+//   const [itemsPerView, setItemsPerView] = useState(4);
+
+//   useEffect(() => {
+//     const updateItemsPerView = () => {
+//       if (window.innerWidth < 640) setItemsPerView(2);
+//       else if (window.innerWidth < 768) setItemsPerView(2);
+//       else if (window.innerWidth < 1024) setItemsPerView(3);
+//       else setItemsPerView(4);
+//     };
+
+//     updateItemsPerView();
+//     window.addEventListener('resize', updateItemsPerView);
+//     return () => window.removeEventListener('resize', updateItemsPerView);
+//   }, []);
+
+//   const canGoPrev = currentIndex > 0;
+//   const canGoNext = currentIndex < products.length - itemsPerView;
+
+//   const next = () => {
+//     if (canGoNext) setCurrentIndex(prev => prev + 1);
+//   };
+
+//   const prev = () => {
+//     if (canGoPrev) setCurrentIndex(prev => prev - 1);
+//   };
+
+//   return (
+//     <div className="w-full py-8 px-4">
+//       <div className="max-w-7xl mx-auto">
+//         <div className="flex justify-between items-center mb-6">
+//           <h2 className="text-2xl font-bold">Trending Now</h2>
+//           <button className="text-red-600 hover:text-red-700 font-medium">
+//             See All →
+//           </button>
+//         </div>
+
+//         <div
+//           className="relative"
+//           onMouseEnter={() => setIsHovered(true)}
+//           onMouseLeave={() => setIsHovered(false)}
+//         >
+//           {((isHovered && canGoPrev) || (window.innerWidth < 1024 && canGoPrev)) && (
+//             <button
+//               onClick={prev}
+//               className="absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-white shadow-lg rounded-full p-2 md:p-3 hover:bg-gray-50 transition-all -translate-x-1/2 md:-translate-x-4"
+//             >
+//               <ChevronLeft className="w-5 h-5 md:w-6 md:h-6 text-gray-800" />
+//             </button>
+//           )}
+
+//           <div className="overflow-hidden">
+//             <motion.div
+//               animate={{ x: -currentIndex * (100 / itemsPerView) + '%' }}
+//               transition={{ type: 'spring', stiffness: 300, damping: 30 }}
+//               className="flex gap-4"
+//               style={{ width: `${(products.length / itemsPerView) * 100}%` }}
+//             >
+//               {products.map((product, index) => (
+//                 <div
+//                   key={product.id}
+//                   style={{ width: `${100 / products.length}%` }}
+//                   className="flex-shrink-0"
+//                 >
+//                   <div className="bg-white rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300 overflow-hidden group h-full">
+//                     <div className="relative aspect-square overflow-hidden bg-gray-100">
+//                       {product.discount && (
+//                         <div className="absolute top-2 left-2 bg-red-600 text-white px-2 py-1 rounded-md text-xs font-bold z-10">
+//                           -{product.discount}%
+//                         </div>
+//                       )}
+//                       <img
+//                         src={product.image}
+//                         alt={product.name}
+//                         className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+//                       />
+//                     </div>
+
+//                     <div className="p-4">
+//                       <h3 className="text-sm font-medium text-gray-800 mb-2 line-clamp-2 h-10">
+//                         {product.name}
+//                       </h3>
+
+//                       <div className="flex items-center gap-2 mb-3">
+//                         {product.originalPrice && (
+//                           <span className="text-xs text-gray-400 line-through">
+//                             ₹{product.originalPrice.toLocaleString()}
+//                           </span>
+//                         )}
+//                         <span className="text-lg font-bold text-gray-900">
+//                           ₹{product.price.toLocaleString()}
+//                         </span>
+//                       </div>
+
+//                       <button className="w-full bg-red-600 hover:bg-red-700 text-white py-2 rounded-lg font-medium transition-colors duration-200 flex items-center justify-center gap-2 text-sm">
+//                         <ShoppingCart className="w-4 h-4" />
+//                         View Product
+//                       </button>
+//                     </div>
+//                   </div>
+//                 </div>
+//               ))}
+//             </motion.div>
+//           </div>
+
+//           {((isHovered && canGoNext) || (window.innerWidth < 1024 && canGoNext)) && (
+//             <button
+//               onClick={next}
+//               className="absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-white shadow-lg rounded-full p-2 md:p-3 hover:bg-gray-50 transition-all translate-x-1/2 md:translate-x-4"
+//             >
+//               <ChevronRight className="w-5 h-5 md:w-6 md:h-6 text-gray-800" />
+//             </button>
+//           )}
+//         </div>
+//       </div>
+//     </div>
+//   );
+// }

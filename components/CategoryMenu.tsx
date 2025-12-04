@@ -625,208 +625,265 @@
 //   );
 // }
 
-"use client";
+  "use client";
 
-import React, { useState } from "react";
-import {
-  Popover,
-  PopoverTrigger,
-  PopoverContent,
-} from "@/components/ui/popover";
-import { Checkbox } from "@/components/ui/checkbox";
-import { ChevronDown, ChevronLeft } from "lucide-react";
-import { cn } from "@/lib/utils";
+  import React, { useState } from "react";
+  import {
+    Popover,
+    PopoverTrigger,
+    PopoverContent,
+  } from "@/components/ui/popover";
+  import { Checkbox } from "@/components/ui/checkbox";
+  import { ChevronDown, ChevronLeft } from "lucide-react";
+  import { cn } from "@/lib/utils";
 
-const categories = [
-  {
-    id: "price",
-    label: "Shop By Price",
-    children: [
-      { id: "u10", label: "Under ₹10,000" },
-      { id: "u15", label: "Under ₹15,000" },
-      { id: "u20", label: "Under ₹20,000" },
-      { id: "u25", label: "Under ₹25,000" },
-      { id: "u50", label: "Under ₹50,000" },
-      { id: "u75", label: "Under ₹75,000" },
-      { id: "u100", label: "Under ₹100,000" },
-      { id: "o100", label: "Over ₹100,000" },
-    ],
-  },
-  {
-    id: "brand",
-    label: "Shop By Brands",
-    children: [
-      { id: "hp", label: "HP" },
-      { id: "dell", label: "Dell" },
-      { id: "lenovo", label: "Lenovo" },
-      { id: "acer", label: "Acer" },
-      { id: "asus", label: "Asus" },
-      { id: "apple", label: "Apple" },
-    ],
-  },
-  {
-    id: "processor",
-    label: "Shop By Processor",
-    children: [
-      { id: "i3", label: "Intel i3" },
-      { id: "i5", label: "Intel i5" },
-      { id: "i7", label: "Intel i7" },
-      { id: "m1", label: "Apple M1" },
-      { id: "m2", label: "Apple M2" },
-    ],
-  },
-];
+  const categories = [
+    {
+      id: "price",
+      label: "Shop By Price",
+      children: [
+        { id: "u10", label: "Under ₹10,000" },
+        { id: "u15", label: "Under ₹15,000" },
+        { id: "u20", label: "Under ₹20,000" },
+        { id: "u25", label: "Under ₹25,000" },
+        { id: "u50", label: "Under ₹50,000" },
+        { id: "u75", label: "Under ₹75,000" },
+        { id: "u100", label: "Under ₹100,000" },
+        { id: "o100", label: "Over ₹100,000" },
+      ],
+    },
+    {
+      id: "brand",
+      label: "Shop By Brands",
+      children: [
+        { id: "hp", label: "HP" },
+        { id: "dell", label: "Dell" },
+        { id: "lenovo", label: "Lenovo" },
+        { id: "acer", label: "Acer" },
+        { id: "asus", label: "Asus" },
+        { id: "apple", label: "Apple" },
+      ],
+    },
+    {
+      id: "processor",
+      label: "Shop By Processor",
+      children: [
+        { id: "i3", label: "Intel i3" },
+        { id: "i5", label: "Intel i5" },
+        { id: "i7", label: "Intel i7" },
+        { id: "m1", label: "Apple M1" },
+        { id: "m2", label: "Apple M2" },
+      ],
+    },
+  ];
 
-export default function CategoryMenu() {
-  const [desktopOpen, setDesktopOpen] = useState(false);
-  const [openSubmenu, setOpenSubmenu] = useState<string | null>(null);
-  const [mobileOpen, setMobileOpen] = useState<string | null>(null); // ← mobile state
-  const [priceInput, setPriceInput] = useState("");
+  export default function CategoryMenu() {
+    const [desktopOpen, setDesktopOpen] = useState(false);
+    const [openSubmenu, setOpenSubmenu] = useState<string | null>(null);
+    const [mobileOpen, setMobileOpen] = useState<string | null>(null); // ← mobile state
+    const [priceInput, setPriceInput] = useState("");
+      const [selectedItems, setSelectedItems] = useState<string[]>([]);
 
-  return (
-    <>
-      {/* ==================== DESKTOP (unchanged, perfect) ==================== */}
-      <div
-        className="hidden md:block relative"
-        onMouseEnter={() => setDesktopOpen(true)}
-        onMouseLeave={() => {
-          setDesktopOpen(false);
-          setOpenSubmenu(null);
-        }}
-      >
-        <Popover open={desktopOpen}>
-          <PopoverTrigger asChild>
-            <button className="flex items-center gap-2 px-5 py-2 text-lg font-medium hover:text-blue-600 transition">
-              Categories <ChevronDown className="h-5 w-5" />
-            </button>
-          </PopoverTrigger>
-
-          <PopoverContent
-            side="bottom"
-            align="start"
-            className="w-72 p-0 bg-white shadow-xl border-0 mt-2"
-            onOpenAutoFocus={(e) => e.preventDefault()}
-          >
-            <div className="py-2">
-              {categories.map((cat) => (
-                <div
-                  key={cat.id}
-                  className="group/category relative"
-                  onMouseEnter={() => setOpenSubmenu(cat.id)}
-                  onMouseLeave={() => setOpenSubmenu(null)}
-                >
-                  {/* Category Row */}
-                  <div
-                    className={cn(
-                      "flex items-center justify-between px-6 py-3 cursor-pointer transition-all",
-                      "group-hover/category:bg-gray-50",
-                      openSubmenu === cat.id
-                        ? "bg-blue-50 text-blue-600 font-semibold"
-                        : "hover:bg-gray-50 hover:text-blue-600"
-                    )}
-                  >
-                    <span>{cat.label}</span>
-                    <ChevronLeft className="h-4 w-4 text-gray-500" />
-                  </div>
-
-                  {/* SUBMENU — Opens to the LEFT */}
-                  {openSubmenu === cat.id && (
-                    <div
-                      className="absolute top-0 right-full  w-96 bg-white shadow-2xl border border-gray-200  p-6"
-                      style={{ top: 0 }}
-                    >
-                      <div className="grid grid-cols-3 gap-5">
-                        {cat.children.map((sub) => (
-                          <label
-                            key={sub.id}
-                            className="flex items-center gap-3 cursor-pointer hover:text-blue-600 transition"
-                          >
-                            <Checkbox />
-                            <span className="text-sm font-medium">{sub.label}</span>
-                          </label>
-                        ))}
-                      </div>
-
-                      {/* Custom Price */}
-                      {cat.id === "price" && (
-                        <div className="mt-8 pt-6 border-t border-gray-200">
-                          <label className="block text-sm font-semibold text-gray-800 mb-3">
-                            Enter Custom Price Range:
-                          </label>
-                          <input
-                            type="text"
-                            value={priceInput}
-                            onChange={(e) => setPriceInput(e.target.value)}
-                            placeholder="e.g. 30000-60000"
-                            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"
-                          />
-                        </div>
-                      )}
-                    </div>
-                  )}
-                </div>
-              ))}
-            </div>
-          </PopoverContent>
-        </Popover>
-      </div>
-
-      {/* ==================== YOUR ORIGINAL MOBILE VERSION (exactly as before) ==================== */}
-      <div className="md:hidden px-4 mt-3">
-        <p className="font-semibold text-sm mb-2">Categories</p>
-        <div className="space-y-3">
-          {categories.map((cat) => (
-            <div key={cat.id}>
-              <button
-                className="w-full flex justify-between py-3 font-medium"
-                onClick={() =>
-                  setMobileOpen(mobileOpen === cat.id ? null : cat.id)
-                }
-              >
-                {cat.label}
-                <ChevronDown
-                  className={cn(
-                    "h-4 w-4 transition-transform",
-                    mobileOpen === cat.id && "rotate-180"
-                  )}
-                />
+    return (
+      <>
+        {/* ==================== DESKTOP (unchanged, perfect) ==================== */}
+          <div
+          className="hidden md:block relative"
+          onMouseEnter={() => setDesktopOpen(true)}
+          onMouseLeave={() => {
+            setDesktopOpen(false);
+            setOpenSubmenu(null);
+          }}
+        >
+          <Popover open={desktopOpen} >
+            <PopoverTrigger asChild>
+              <button className={cn(
+                "flex items-center justify-between  w-70 cursor-pointer gap-2 px-5 py-2 text-base font-medium transition",
+                desktopOpen ? "text-blue-600" : "hover:text-blue-600"
+              )}>
+              <ChevronDown className="h-4 w-4" /> Categories 
               </button>
-
-              {mobileOpen === cat.id && (
-                <div className="pl-4 pr-2 pb-3 space-y-2">
-                  <div className="grid grid-cols-3 gap-2">
-                    {cat.children.map((sub) => (
-                      <label key={sub.id} className="flex items-center gap-2">
-                        <Checkbox />
-                        {sub.label}
-                      </label>
-                    ))}
-                  </div>
-
-                  {/* Price Input for Mobile */}
-                  {cat.id === "price" && (
-                    <div className="mt-4">
-                      <label className="block text-sm font-medium text-gray-700">
-                        Enter Custom Price:
-                      </label>
-                      <input
-                        type="text"
-                        value={priceInput}
-                        onChange={(e) => setPriceInput(e.target.value)}
-                        className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                        placeholder="Enter price"
-                      />
+            </PopoverTrigger>
+    <PopoverContent
+              side="bottom"
+              align="start"
+              className="w-72 p-0 bg-white relative  border mt-5 border-gray-200 shadow-lg"
+              onOpenAutoFocus={(e) => e.preventDefault()}
+              sideOffset={0}
+            >
+              <div className="py-2">
+                {categories.map((cat) => (
+                  <div
+                    key={cat.id}
+                    className="group/category "
+                    onMouseEnter={() => setOpenSubmenu(cat.id)}
+                    onMouseLeave={() => setOpenSubmenu(null)}
+                  >
+                    {/* Category Row */}
+                    <div
+                      className={cn(
+                        "flex items-center justify-between px-6 py-3 cursor-pointer transition-all",
+                        openSubmenu === cat.id ? "text-blue-600" : ""
+                      )}
+                    >
+                      <ChevronLeft className={cn("h-4 w-4", openSubmenu === cat.id ? "text-blue-500" : "text-gray-500")} />
+                      <span>{cat.label}</span>
                     </div>
-                  )}
-                </div>
-              )}
-            </div>
-          ))}
+
+                    {/* SUBMENU — Opens to the LEFT */}
+             {openSubmenu === cat.id && (
+  <div
+    className="absolute right-full top-0 min-w-lg min-h-85 bg-white border border-gray-200 p-6 shadow-lg"
+  >
+    <div className="grid grid-cols-3 gap-5">
+      {cat.children.map((sub) => (
+        <label
+          key={sub.id}
+          className={cn(
+            "flex items-center gap-3 cursor-pointer transition",
+            selectedItems.includes(sub.id)
+              ? "text-blue-600"
+              : "hover:text-blue-600"
+          )}
+        >
+          <Checkbox 
+            checked={selectedItems.includes(sub.id)}
+            onCheckedChange={(checked) => {
+              if (checked) {
+                setSelectedItems([...selectedItems, sub.id]);
+              } else {
+                setSelectedItems(
+                  selectedItems.filter((id) => id !== sub.id)
+                );
+              }
+            }}
+          />
+          <span className="text-sm font-medium">{sub.label}</span>
+        </label>
+      ))}
+    </div>
+
+    {/* price custom input stays same */}
+    {cat.id === "price" && (
+      <div className="mt-8 pt-6 border-t border-gray-200">
+        <label className="block text-sm font-semibold text-gray-800 mb-3">
+          Enter Custom Price Range:
+        </label>
+
+        <div className="flex items-center gap-4">
+          <input
+            type="number"
+            placeholder="Min ₹"
+            className="w-full px-4 py-3 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-blue-500"
+          />
+          <input
+            type="number"
+            placeholder="Max ₹"
+            className="w-full px-4 py-3 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-blue-500"
+          />
         </div>
+
+        <button className="w-full mt-4 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-sm font-semibold">
+          Apply Range
+        </button>
       </div>
-    </>
-  );
-}
+    )}
+  </div>
+)}
+
+                  </div>
+                ))}
+              </div>
+            </PopoverContent>
+          </Popover>
+        </div>
+
+        {/* ==================== YOUR ORIGINAL MOBILE VERSION (exactly as before) ==================== */}
+        <div className="md:hidden px-4 mt-3">
+          <p className="font-semibold text-sm mb-2">Categories</p>
+          <div className="space-y-3">
+            {categories.map((cat) => (
+              <div key={cat.id}>
+                <button
+                  className="w-full flex justify-between py-3 font-medium"
+                  onClick={() =>
+                    setMobileOpen(mobileOpen === cat.id ? null : cat.id)
+                  }
+                >
+                  {cat.label}
+                  <ChevronDown
+                    className={cn(
+                      "h-4 w-4 transition-transform",
+                      mobileOpen === cat.id && "rotate-180"
+                    )}
+                  />
+                </button>
+
+                {mobileOpen === cat.id && (
+                  <div className="pl-2 pr-0 pb-3 space-y-4 ">
+                    <div className="grid grid-cols-2 gap-3">
+                      {cat.children.map((sub) => (
+                        <label key={sub.id} className=" flex items-center  gap-2">
+                          <Checkbox />
+                          <span className="text-sm">
+
+                          {sub.label}
+                          </span>
+                        </label>
+                      ))}
+                    </div>
+
+                    {/* Price Input for Mobile */}
+                    {/* {cat.id === "price" && (
+                      <div className="mt-4">
+                        <label className="block text-sm font-medium text-gray-700">
+                          Enter Custom Price:
+                        </label>
+                        <input
+                          type="text"
+                          value={priceInput}
+                          onChange={(e) => setPriceInput(e.target.value)}
+                          className="mt-1 block w-full px-2 text-sm py-1 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                          placeholder="Enter price"
+                        />
+                      </div>
+                    )} */}
+                    {cat.id === "price" && (
+    <div className="mt-4 space-y-3">
+      <label className="block text-sm font-medium text-gray-700">
+        Enter Custom Price Range:
+      </label>
+
+      <div className="grid grid-cols-2 gap-3">
+        <input
+          type="number"
+          placeholder="Min ₹"
+          className="px-2 py-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
+        />
+        <input
+          type="number"
+          placeholder="Max ₹"
+          className="px-2 py-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
+        />
+      </div>
+
+      <button
+        className="w-full py-2.5 bg-indigo-600 text-white rounded-md text-sm font-semibold hover:bg-indigo-700 transition"
+      >
+        Apply Range
+      </button>
+    </div>
+  )}
+
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
+        </div>
+      </>
+    );
+  }
 
 //////////////////////////////////
 
