@@ -1,4 +1,5 @@
 import HeroSlider from "@/components/Banner";
+import FAQComponent from "@/components/FAQComponent";
 import Navbar from "@/components/Navbar";
 import ProductSwiper from "@/components/ProductSwiper";
 
@@ -8,6 +9,7 @@ export default function Home() {
      <Navbar/>
      <HeroSlider/>
      <ProductSwiper/>
+     <FAQComponent/>
     </div>
   );
 }

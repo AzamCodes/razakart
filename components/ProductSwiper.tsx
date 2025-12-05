@@ -425,7 +425,7 @@
 "use client";
 
 import { useState } from "react";
-import { ChevronLeft, ChevronRight, Eye } from "lucide-react";
+import { ChevronLeft, ChevronRight, Eye, Truck } from "lucide-react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Pagination } from "swiper/modules";
 import type { Swiper as SwiperType } from "swiper";
@@ -538,10 +538,20 @@ export default function ProductSlider() {
                 <div className="bg-white rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-shadow group">
                   <div className="relative aspect-square bg-gray-100 overflow-hidden">
                     {product.discount && (
-                      <div className="absolute top-1.5 lg:top-3 left-1.5 lg:left-3 z-10 bg-blue-600 text-white text-xs lg:text-sm lg:font-bold px-1.5 py-0.5 lg:px-3 lg:py-1 rounded-full">
-                        -{product.discount}%
-                      </div>
+                      // <div className="absolute top-1.5 lg:top-3 left-1.5 lg:left-3 z-10 bg-blue-600 text-white text-xs lg:text-sm lg:font-bold px-1.5 py-0.5 lg:px-3 lg:py-1 rounded-full">
+                      //   -{product.discount}%
+                      // </div>
+
+                      <div className="absolute top-1.5 lg:top-3 left-1.5 lg:left-3 z-10 flex items-center gap-1.5">
+  {/* <div className=" text-blue-600  rounded-full p-1 flex items-center gap-0.5 lg:p-1.5">
+    <Truck className="w-4 h-4 lg:w-4 lg:h-4" /> <span className="text-gray-600 text-[10px] lg:text-sm">Free</span>
+  </div> */}
+  <div className="bg-blue-600 text-white text-[10px] lg:text-sm lg:font-bold px-1.5 py-0.5 lg:px-3 lg:py-1 rounded-full">
+    -{product.discount}%
+  </div>
+</div>
                     )}
+                 
 
                     <Image
                       src={product.image}
@@ -563,9 +573,15 @@ export default function ProductSlider() {
                           ₹{product.originalPrice.toLocaleString()}
                         </div>
                       )}
-                      <div className="text-sm sm:text-lg lg:text-xl font-bold text-blue-600">
+         
+                    <div className="flex items-center justify-between">
+                        <div className="text-sm sm:text-lg lg:text-xl font-bold text-blue-600">
                         ₹{product.price.toLocaleString()}
                       </div>
+                                    <div className=" text-blue-600   rounded-full p-1 flex items-center gap-0.5 lg:p-1.5">
+    <Truck className="w-4 h-4 lg:w-4 lg:h-4" /> <span className="text-gray-600 text-[10px] lg:text-sm">Free</span>
+  </div>
+                    </div>
                     </div>
 
                     <button className="w-full bg-blue-600 hover:bg-blue-700 rounded-sm text-white font-semibold py-2.5 text-xs sm:text-sm lg:rounded-lg flex items-center justify-center gap-2 transition-colors">
