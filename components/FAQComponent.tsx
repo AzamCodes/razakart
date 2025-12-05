@@ -214,9 +214,8 @@
 // }
 
 
-
 import React, { useState } from 'react';
-import { ChevronDown, Search, HelpCircle, Zap, Shield, Clock, CheckCircle, ArrowRight } from 'lucide-react';
+import { ChevronDown, Search, HelpCircle, Zap, Shield, Clock, CheckCircle } from 'lucide-react';
 
 const faqs = [
   {
@@ -364,11 +363,11 @@ const faqs = [
 ];
 
 export default function FAQComponent() {
-  const [openItems, setOpenItems] = useState({});
+  const [openItems, setOpenItems] = useState<Record<string, boolean>>({});
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("all");
 
-  const toggleItem = (category, index) => {
+  const toggleItem = (category: string, index: number) => {
     const key = `${category}-${index}`;
     setOpenItems(prev => ({
       ...prev,
@@ -386,7 +385,7 @@ export default function FAQComponent() {
   })).filter(category => category.questions.length > 0);
 
   return (
-    <div className="min-h-screen w-full bg-gradient-to-br from-slate-50 via-blue-50 to-slate-100 py-12 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-slate-100 py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-5xl mx-auto">
         {/* Header */}
         <div className="text-center mb-12">
@@ -397,7 +396,7 @@ export default function FAQComponent() {
             Frequently Asked Questions
           </h1>
           <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-            Got questions? We've got answers. Can't find what you're looking for? Contact our support team.
+            Got questions? We&apos;ve got answers. Can&apos;t find what you&apos;re looking for? Contact our support team.
           </p>
         </div>
 
@@ -515,7 +514,7 @@ export default function FAQComponent() {
               <div className="w-20 h-20 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
                 <Search className="w-10 h-10 text-gray-400" />
               </div>
-              <p className="text-xl text-gray-600">No results found for "{searchTerm}"</p>
+              <p className="text-xl text-gray-600">No results found for &quot;{searchTerm}&quot;</p>
               <p className="text-gray-500 mt-2">Try a different search term or browse all categories</p>
             </div>
           )}
