@@ -1,6 +1,6 @@
 "use client"
 import  { useState } from 'react';
-import { Search, ShoppingCart, Menu, } from 'lucide-react';
+import { Search, ShoppingCart, Menu, Phone, } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
@@ -84,9 +84,12 @@ export default function Navbar() {
               </Button>
             </div>
           </div>
-
+<div className='hidden md:flex items-center cursor-pointer hover:text-blue-600 gap-2'>
+              <Phone  className="h-5 w-5"/>(+91) 9321888689 
+            </div>
           {/* Desktop Category Dropdown */}
-          <div className="hidden md:block">
+          <div className="hidden   md:block">
+            
             <CategoryMenu />
           </div>
 

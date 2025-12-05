@@ -537,20 +537,24 @@ export default function ProductSlider() {
               <SwiperSlide key={product.id}>
                 <div className="bg-white rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-shadow group">
                   <div className="relative aspect-square bg-gray-100 overflow-hidden">
-                    {product.discount && (
-                      // <div className="absolute top-1.5 lg:top-3 left-1.5 lg:left-3 z-10 bg-blue-600 text-white text-xs lg:text-sm lg:font-bold px-1.5 py-0.5 lg:px-3 lg:py-1 rounded-full">
-                      //   -{product.discount}%
-                      // </div>
-
-                      <div className="absolute top-1.5 lg:top-3 left-1.5 lg:left-3 z-10 flex items-center gap-1.5">
-  {/* <div className=" text-blue-600  rounded-full p-1 flex items-center gap-0.5 lg:p-1.5">
-    <Truck className="w-4 h-4 lg:w-4 lg:h-4" /> <span className="text-gray-600 text-[10px] lg:text-sm">Free</span>
-  </div> */}
-  <div className="bg-blue-600 text-white text-[10px] lg:text-sm lg:font-bold px-1.5 py-0.5 lg:px-3 lg:py-1 rounded-full">
-    -{product.discount}%
-  </div>
-</div>
-                    )}
+                {product.discount && (
+        // CORRECTED: Absolute position with w-full, using internal padding (p-3)
+        // to keep badges within bounds and spaced from the edge.
+        <div className="absolute w-full top-0 left-0 z-10 p-2 sm:p-3 flex items-center justify-between">
+          
+          {/* Discount Badge (Left Side) */}
+          <div className="bg-blue-600 text-white text-[10px] lg:text-sm lg:font-bold px-1.5 py-0.5 lg:px-3 lg:py-1 rounded-full shadow-md">
+            -{product.discount}%
+          </div>
+          
+          {/* Free Delivery Badge (Right Side) */}
+          {/* Note: Added 'bg-white shadow-md' for better visibility against the image */}
+          <div className="bg-white text-blue-600 rounded-full p-1 flex items-center gap-0.5 lg:p-1.5 shadow-md">
+            <Truck className="w-4 h-4 lg:w-4 lg:h-4" /> 
+            <span className="text-blue-500 font-semibold text-[10px] lg:text-sm">Free</span>
+          </div>
+        </div>
+      )}
                  
 
                     <Image
@@ -578,9 +582,7 @@ export default function ProductSlider() {
                         <div className="text-sm sm:text-lg lg:text-xl font-bold text-blue-600">
                         ₹{product.price.toLocaleString()}
                       </div>
-                                    <div className=" text-blue-600   rounded-full p-1 flex items-center gap-0.5 lg:p-1.5">
-    <Truck className="w-4 h-4 lg:w-4 lg:h-4" /> <span className="text-gray-600 text-[10px] lg:text-sm">Free</span>
-  </div>
+                                   
                     </div>
                     </div>
 
