@@ -543,12 +543,29 @@
 // }
 
 
-
 import React, { useState } from 'react';
-import { ChevronDown, Search, HelpCircle, Zap, Shield, Clock } from 'lucide-react';
+import { ChevronDown, Search, HelpCircle, Zap, Shield, Clock, LucideIcon } from 'lucide-react';
 
-// Reusing the original data structure
-const faqs = [
+// --- TYPE DEFINITIONS FOR DATA STRUCTURE ---
+interface SubPoint {
+  title: string;
+  description: string;
+}
+
+interface Question {
+  q: string;
+  a: string;
+  subPoints?: SubPoint[];
+}
+
+interface FaqCategory {
+  category: string;
+  icon: LucideIcon; // Type for Lucide icons
+  questions: Question[];
+}
+
+// Reusing the original data structure, explicitly typed
+const faqs: FaqCategory[] = [
   {
     category: "Getting Started",
     icon: Zap,
@@ -605,8 +622,15 @@ const faqs = [
   }
 ];
 
-// Helper component for a single FAQ item
-const FaqItem = ({ item, isOpen, toggle }) => {
+// --- HELPER COMPONENT (Typed with React.FC) ---
+
+interface FaqItemProps {
+    item: Question;
+    isOpen: boolean;
+    toggle: () => void;
+}
+
+const FaqItem: React.FC<FaqItemProps> = ({ item, isOpen, toggle }) => {
   return (
     <div className="border-b">
       <button
@@ -644,12 +668,15 @@ const FaqItem = ({ item, isOpen, toggle }) => {
   );
 };
 
-export default function SimpleFAQComponent() {
-  const [openItems, setOpenItems] = useState({});
-  const [searchTerm, setSearchTerm] = useState("");
-  const [selectedCategory, setSelectedCategory] = useState("all");
+// --- MAIN COMPONENT (Typed) ---
 
-  const toggleItem = (category, index) => {
+export default function SimpleFAQComponent() {
+  // Fixed TypeScript error by explicitly typing the state hook for open items
+  const [openItems, setOpenItems] = useState<Record<string, boolean>>({});
+  const [searchTerm, setSearchTerm] = useState<string>("");
+  const [selectedCategory, setSelectedCategory] = useState<string>("all");
+
+  const toggleItem = (category: string, index: number) => {
     const key = `${category}-${index}`;
     setOpenItems(prev => ({
       ...prev,
@@ -666,7 +693,7 @@ export default function SimpleFAQComponent() {
     )
   })).filter(category => category.questions.length > 0);
 
-  const allCategories = [{ category: "all", icon: HelpCircle }].concat(faqs);
+  const allCategories: FaqCategory[] = [{ category: "all", icon: HelpCircle, questions: [] } as FaqCategory].concat(faqs);
 
   return (
     <div className="w-full bg-white py-8 sm:py-12 px-4 sm:px-6 lg:px-8">
@@ -740,9 +767,10 @@ export default function SimpleFAQComponent() {
           ) : (
             <div className="text-center py-8 sm:py-10 bg-gray-50 rounded-lg border border-gray-200">
               <p className="text-base text-gray-600">
-                No results found for **&quot;{searchTerm}&quot;** in **{selectedCategory !== "all" ? category : "all categories"}**.
+                {/* Fixed the variable name from 'category' to 'selectedCategory' */}
+                No results found for **&quot;{searchTerm}&quot;** in **{selectedCategory !== "all" ? selectedCategory : "all categories"}**.
               </p>
-              <p className="text-xs text-gray-500 mt-1">Try a different search term or select "All" questions.</p>
+              <p className="text-xs text-gray-500 mt-1">Try a different search term or select ct &quot;All&quot; questions. questions.</p>
             </div>
           )}
         </div>
@@ -750,8 +778,7 @@ export default function SimpleFAQComponent() {
         {/* Contact CTA */}
         <div className="mt-10 sm:mt-12 pt-6 sm:pt-8 border-t text-center">
           <p className="text-base text-gray-700 mb-3 sm:mb-4">
-            Still can't find the answer you're looking for?
-          </p>
+Still can&apos;t find the answer you&apos;re looking for?          </p>
           <button className="inline-flex items-center justify-center px-5 py-2 text-sm sm:text-base border border-transparent font-medium rounded-lg text-white bg-blue-600 hover:bg-blue-700 transition-colors shadow-md">
             Contact Support
           </button>
