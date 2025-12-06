@@ -4,7 +4,7 @@ import { Search, ShoppingCart, Menu, Phone, } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
-import CategoryMenu from './CategoryMenu';
+// import CategoryMenu from './CategoryMenu';
 import CategoryMenuF from './CategoryMenuF';
 
 

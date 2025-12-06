@@ -1,6 +1,6 @@
 import HeroSlider from "@/components/Banner";
 import FAQComponent from "@/components/FAQComponent";
-import Navbar from "@/components/Navbar";
+// import Navbar from "@/components/Navbar";
 import NavbarF from "@/components/NavbarF";
 import ProductSwiper from "@/components/ProductSwiper";
 
