@@ -544,7 +544,7 @@
 
 
 import React, { useState } from 'react';
-import { ChevronDown, Search, HelpCircle, Zap, Shield, Clock, LucideIcon } from 'lucide-react';
+import {  Search, HelpCircle, Zap, Shield, Clock, LucideIcon, CircleMinus, CirclePlus } from 'lucide-react';
 
 // --- TYPE DEFINITIONS FOR DATA STRUCTURE ---
 interface SubPoint {
@@ -639,11 +639,17 @@ const FaqItem: React.FC<FaqItemProps> = ({ item, isOpen, toggle }) => {
         className="flex justify-between items-center w-full py-3.5 sm:py-4 text-base sm:text-lg font-medium hover:text-blue-600 transition-colors duration-200 text-left"
       >
         <span className="text-gray-900">{item.q}</span>
-        <ChevronDown
+        {/* <ChevronDown
           className={`w-5 h-5 text-gray-500 transition-transform duration-300 ${
             isOpen ? "rotate-180 text-blue-600" : ""
           }`}
-        />
+        /> */}
+        {isOpen ? (
+  <CircleMinus className="w-5 h-5 text-blue-600 transition-all duration-300" />
+) : (
+  <CirclePlus className="w-5 h-5 text-gray-500 transition-all duration-300" />
+)}
+
       </button>
       <div
         className={`overflow-hidden transition-all duration-300 ease-in-out ${
