@@ -551,7 +551,7 @@ export default function ProductSlider() {
           {/* Note: Added 'bg-white shadow-md' for better visibility against the image */}
           <div className="bg-white text-blue-600 rounded-full p-1 flex items-center gap-0.5 lg:p-1.5 shadow-md">
             <Truck className="w-4 h-4 lg:w-4 lg:h-4" /> 
-            <span className="text-blue-500 font-semibold text-[10px] lg:text-sm">Free</span>
+            <span className="text-blue-500 font-semibold text-[10px] lg:text-sm">Free Delivery</span>
           </div>
         </div>
       )}
@@ -572,13 +572,13 @@ export default function ProductSlider() {
                     </h3>
 
                     <div className="mb-2 lg:mb-3">
+                      <div className="flex items-center gap-2">
                       {product.originalPrice && (
                         <div className="text-xs lg:text-sm text-gray-500 line-through lg:mb-0">
                           ₹{product.originalPrice.toLocaleString()}
                         </div>
                       )}
          
-                    <div className="flex items-center justify-between">
                         <div className="text-sm sm:text-lg lg:text-xl font-bold text-blue-600">
                         ₹{product.price.toLocaleString()}
                       </div>

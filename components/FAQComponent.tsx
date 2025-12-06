@@ -718,7 +718,7 @@ export default function SimpleFAQComponent() {
 
         {/* Search & Filter */}
         <div className="space-y-4 sm:space-y-6 mb-6 sm:mb-8">
-          <div className="relative">
+          {/* <div className="relative">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
             <input
               type="text"
@@ -728,9 +728,9 @@ export default function SimpleFAQComponent() {
               // Reduced padding for a tighter mobile experience
               className="w-full pl-10 pr-4 py-2 rounded-lg border border-gray-300 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 focus:outline-none text-sm text-gray-900 transition-all"
             />
-          </div>
+          </div> */}
 
-          <div className="flex flex-wrap gap-2">
+          <div className="flex items-center justify-center flex-wrap gap-2">
             {allCategories.map((cat) => (
               <button
                 key={cat.category}
